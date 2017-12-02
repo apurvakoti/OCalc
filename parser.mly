@@ -17,6 +17,9 @@
 (*elementary constants*)
 %token PI NATEXP
 
+(*parentheses*)
+%token LPAREN RPAREN COMMA
+
 (*I assume this defines association for the below operators - could be wrong*)
 %left PLUS MINUS TIMES DIV
 
@@ -45,6 +48,21 @@ expr:
         { make_times e1 e2 }
   | e1 = expr; DIV; e2 = expr
         { make_div e1 e2 }
-  | POW; e1 = expr; e2 = expr
+  | POW; e1 = expr; COMMA; e2 = expr
         { make_pow e1 e2 }
-  | 
+  | SIN; LPAREN; e = expr; RPAREN
+        { make_sin e }
+  | COS; LPAREN; e = expr; RPAREN
+        { make_cos e }
+  | TAN; LPAREN; e = expr; RPAREN
+        { make_tan e }
+  | ARCSIN; LPAREN; e = expr; RPAREN
+        { make_arcsin e }
+  | ARCCOS; LPAREN; e = expr; RPAREN
+        { make_arccos e }
+  | ARCTAN; LPAREN; e = expr; RPAREN
+        { make_arctan e }
+  | LOG; LPAREN; e = expr; RPAREN
+        { make_log e }
+  | LPAREN; e = expr; LPAREN
+        { e }
