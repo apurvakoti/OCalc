@@ -142,38 +142,3 @@ rule token = parse
         { EOF }
   | _
         { raise Error }
-
-and string = parse
-  | '\"'
-        { () }
-  | '\\' newline ([' ' '\t'] * as space)
-        { new_line lexbuf;
-          let pos = lexbuf.lex_curr_p in
-          lexbuf.lex_curr_p <- { pos with
-            pos_bol = pos.pos_cnum - (String.length space)
-          };
-          string lexbuf }
-  | '\\' ['\\' '\'' '\"' 'n' 't' 'b' 'r' ' ']
-        { store_escaped_char lexbuf
-                             (char_for_backslash(Lexing.lexeme_char lexbuf 1));
-          string lexbuf }
-  | '\\' ['0'-'9'] ['0'-'9'] ['0'-'9']
-        { store_escaped_char lexbuf (char_for_decimal_code lexbuf 1);
-           string lexbuf }
-  | '\\' 'o' ['0'-'3'] ['0'-'7'] ['0'-'7']
-        { store_escaped_char lexbuf (char_for_octal_code lexbuf 2);
-          string lexbuf }
-  | '\\' 'x' ['0'-'9' 'a'-'f' 'A'-'F'] ['0'-'9' 'a'-'f' 'A'-'F']
-        { store_escaped_char lexbuf (char_for_hexadecimal_code lexbuf 2);
-          string lexbuf }
-  | '\\' _
-        { raise Error }
-  | newline
-        { new_line lexbuf;
-          store_lexeme lexbuf;
-          string lexbuf }
-  | eof
-        { raise Error }
-  | _
-        { store_string_char(Lexing.lexeme_char lexbuf 0);
-          string lexbuf }

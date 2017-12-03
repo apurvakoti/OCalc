@@ -2,7 +2,7 @@ open Ast
 open Ast_maker
 
 type result =
-  Const of float | Mapping of float*float list
+  Const of float | Mapping of (float*float) list
 
 
 (*HELPERS*)
@@ -28,26 +28,33 @@ let eval_as_consts f e1 e2 =
 (*[eval_as_consts f e] is the single-argument
  * version of the above function. Returns a result.*)
  let eval_as_const f e =
-  let fval = (match e1 with Const f -> f) in
+  let fval = (match e with Const f -> f) in
   Const (f fval)
 
 (********************)
 
 let transform min max = 
-  let rec helper min' max' acc lacc = 
-    if acc = min' then lacc else
-    helper min' max' (acc -. (0.05 *. (max' -. min'))) (acc::lacc)
-  in helper min max max []
+  let rec helper min' max' offset acc lacc = 
+    if acc <= min' then lacc else
+    helper min' max' offset (acc -. offset) (acc::lacc)
+  in helper min max (0.005 *. (max -. min)) max []
 
 let rec eval_expr e scale =
   match e with
-  |NIdent -> Mapping (List.map eval_iden scale)
+  |NIdent -> eval_iden scale
+  |NConst s -> eval_const s
+  |NAdd (e1, e2) -> eval_add e1 e2 scale
+  |NMinus (e1, e2) -> eval_minus e1 e2 scale
+  |NMult (e1, e2) -> eval_mult e1 e2 scale
+  |NDiv (e1, e2) -> eval_div e1 e2 scale
+  |NPow (e1, e2) -> eval_pow e1 e2 scale
+  |_ -> failwith "Unimplemented"
 
-and eval_iden x_val =
-  (x_val, x_val)
+and eval_iden scale =
+  Mapping (List.map (fun x -> (x, x)) scale) 
 
 and eval_const c_val =
-  float_of_string c_val
+  Const (float_of_string c_val)
 
 and eval_bop_helper e1 e2 func scale = 
   let first = eval_expr e1 scale in
@@ -73,9 +80,13 @@ and eval_minus e1 e2 scale =
   eval_bop_helper e1 e2 (-.) scale
 
 and eval_mult e1 e2 scale = 
-  eval_bop_helper e1 e2 (fun a b -> a *. b) scale
+  eval_bop_helper e1 e2 ( *. ) scale
 
-and eval_div e1 e2 scale =
+and eval_div e1 e2 scale = 
+  eval_bop_helper e1 e2 (/.) scale
+
+and eval_pow e1 e2 scale =
+  eval_bop_helper e1 e2 ( ** ) scale
 
   
   

@@ -1,5 +1,5 @@
 repl:
-	ocamlbuild -use-ocamlfind repl.byte && ./repl.byte
+	ocamlbuild -use-menhir main.byte && ./main.byte
 
 clean:
 	ocamlbuild -clean
