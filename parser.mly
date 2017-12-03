@@ -4,7 +4,6 @@
 %}
 
 
-
 %token <string> CONST
 %token IDENT
 
