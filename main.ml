@@ -19,7 +19,9 @@ let rec main () =
   match read_line () with
   (*| exception End_of_file -> ()*)
   | "quit" -> ()
-  | e -> print_endline (interp_expr e); main ()
+  | e -> let interped = (try interp_expr e with | Parser.Error -> "Error" 
+                                                | Lexer.Error s -> "Error: " ^ s)
+         in print_endline interped; main ()
 
 let _ = main ()
 

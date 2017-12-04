@@ -25,11 +25,7 @@ let unexpected_error msg lexbuf =
 
 let parse parser_start s =
   let lexbuf = from_string s in
-    try
-      parser_start Lexer.token lexbuf
-    with
-      | Parser.Error | Lexer.Error -> print_endline "error"; parse_error lexbuf
-      | Failure s -> unexpected_error s lexbuf
+  parser_start Lexer.token lexbuf
 
 let parse_expr =
   parse Parser.parse_expression

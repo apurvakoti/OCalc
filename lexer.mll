@@ -8,7 +8,7 @@ the A4 source code - written by Michael Clarkson*)
 open Lexing
 open Parser
 
-exception Error
+exception Error of string
 
 let comment_depth = ref 0
 
@@ -54,7 +54,7 @@ let char_for_decimal_code lexbuf i =
            10 * (Char.code(Lexing.lexeme_char lexbuf (i+1)) - 48) +
                 (Char.code(Lexing.lexeme_char lexbuf (i+2)) - 48) in
   if (c < 0 || c > 255)
-    then raise Error
+    then raise (Error "Encoding error")
     else Char.chr c
 
 let char_for_octal_code lexbuf i =
@@ -86,25 +86,22 @@ let lowercase = ['a'-'z']
 let identchar = ['A'-'Z' 'a'-'z' '_' '\'' '0'-'9']
 let id = (lowercase | '_') identchar*
 
-let decimal_literal =
+let whole_number =
   ['0'-'9'] ['0'-'9' '_']*
-let hex_digit =
-  ['0'-'9' 'A'-'F' 'a'-'f']
-let hex_literal =
-  '0' ['x' 'X'] ['0'-'9' 'A'-'F' 'a'-'f']['0'-'9' 'A'-'F' 'a'-'f' '_']*
-let oct_literal =
-  '0' ['o' 'O'] ['0'-'7'] ['0'-'7' '_']*
-let bin_literal =
-  '0' ['b' 'B'] ['0'-'1'] ['0'-'1' '_']*
-let int_literal =
-  decimal_literal | hex_literal | oct_literal | bin_literal
+
+let decimal_number =
+  ['0'-'9'] ['.'] ['0'-'9']*
+
+let num_literal =
+  whole_number | decimal_number
+  
 
 rule token = parse
   | blank+
         { token lexbuf }
   | ['\n']
         { new_line lexbuf; token lexbuf }
-  | int_literal
+  | num_literal
         { CONST (Lexing.lexeme lexbuf) }
   | "x"
         { IDENT }
@@ -122,6 +119,10 @@ rule token = parse
         { RPAREN }
   | "," 
         { COMMA }
+  | "^"
+        { CARAT }
+  | "pow"
+        { POW }
   | "sin"
         { SIN }
   | "cos"
@@ -141,4 +142,4 @@ rule token = parse
   | eof
         { EOF }
   | _
-        { raise Error }
+        { raise (Error (Lexing.lexeme lexbuf))}

@@ -18,9 +18,10 @@
 %token EOF
 
 
-%token LPAREN RPAREN COMMA
+%token LPAREN RPAREN COMMA CARAT
 
-%left PLUS MINUS TIMES DIV
+%left PLUS MINUS TIMES DIV POW
+
 
 %start <Ast.expr> parse_expression
 
@@ -49,7 +50,9 @@ expr:
         { make_mult e1 e2 }
   | e1 = expr; DIV; e2 = expr
         { make_div e1 e2 }
-  | POW; e1 = expr; COMMA; e2 = expr
+  | POW; LPAREN; e1 = expr; COMMA; e2 = expr; RPAREN
+        { make_pow e1 e2 }
+  | e1 = expr; CARAT; e2 = expr
         { make_pow e1 e2 }
   | SIN; LPAREN; e = expr; RPAREN
         { make_sin e }
