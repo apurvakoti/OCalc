@@ -5,6 +5,9 @@ type result =
   Const of float | Mapping of (float*float) list
 
 
+exception EvalExp of string
+
+
 (*HELPERS*)
 (*[make_list_n v n] creates a list of size n
  * in which all the elements are v.*)
@@ -36,7 +39,7 @@ let eval_as_consts f e1 e2 =
  * version of the above function. Returns a result.*)
  let eval_as_const f e =
   let fval = (match e with Const f -> f) in
-  if fval = nan then failwith "Not a number. Check your inputs" else
+  if (compare (f fval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs.") else
   Const (f fval)
 
 (********************)
@@ -103,7 +106,7 @@ and eval_uop_helper e func scale =
   let operated = List.map func firstlst in
   (*the below check is only in UOP because NaN appears only with the
    * unary operators arcsin, arccos etc*)
-  if List.mem nan operated then failwith "Not a number. Check your inputs" else
+  if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs") else
   Mapping (List.map2 (fun a b -> (a, b)) scale operated)
 
 
@@ -117,7 +120,9 @@ and eval_mult e1 e2 scale =
   eval_bop_helper e1 e2 ( *. ) scale
 
 and eval_div e1 e2 scale = 
-  eval_bop_helper e1 e2 (/.) scale
+  match eval_expr e2 scale with
+  |Const 0. -> raise (EvalExp "Can't divide by zero.")
+  |_ -> eval_bop_helper e1 e2 (/.) scale
 
 and eval_pow e1 e2 scale =
   eval_bop_helper e1 e2 ( ** ) scale

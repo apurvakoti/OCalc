@@ -1,5 +1,9 @@
 open Ast
 
+(*[EvalExp] is the exception raised during evaluations of invalid
+ * mathematical forms*)
+exception EvalExp of string
+
 (*type [result] is a mapping of x-values to y-values resulting
  *from the evaluation of an expression. Can be either a mapping
  *within the scale specified, or a single constant value.*)

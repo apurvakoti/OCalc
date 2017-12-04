@@ -41,9 +41,3 @@ let make_arctan e =
 
 let make_ln e =
   NLn e
-
-let make_pi () =
-  NConst "3.14159265"
-
-let make_e () =
-  NConst "2.71828183"

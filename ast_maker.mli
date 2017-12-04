@@ -47,9 +47,3 @@ val make_arctan : expr -> expr
 
 (* [make_ln e] represents y = ln(e) *)
 val make_ln : expr -> expr
-
-(* [make_pi ()] represents y = pi *)
-val make_pi : unit -> expr
-
-(* [make_e ()] represents y = e *)
-val make_e : unit -> expr
