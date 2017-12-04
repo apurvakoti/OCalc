@@ -77,6 +77,7 @@ let white = [' ' '\t']+
 let digit = ['0'-'9']
 let int = '-'? digit+
 let letter = ['a'-'z' 'A'-'Z']
+let word = letter+
 let id = ('_' | letter) ('_' | letter | digit)*
 
 let newline = ('\013'* '\010')
@@ -123,6 +124,8 @@ rule token = parse
         { CARAT }
   | "pow"
         { POW }
+  | "sqrt"
+        { SQRT }
   | "log"
         { LOG }
   | "ln"
@@ -145,5 +148,7 @@ rule token = parse
         { NATEXP }
   | eof
         { EOF }
+  | word
+        { raise (Error (Lexing.lexeme lexbuf))}
   | _
         { raise (Error (Lexing.lexeme lexbuf))}

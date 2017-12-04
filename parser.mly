@@ -9,7 +9,7 @@
 
 %token PLUS MINUS DIV TIMES
 
-%token POW LOG LN
+%token POW LOG LN SQRT
 
 %token SIN COS TAN ARCSIN ARCCOS ARCTAN
 
@@ -52,6 +52,8 @@ expr:
         { make_div e1 e2 }
   | POW; LPAREN; e1 = expr; COMMA; e2 = expr; RPAREN
         { make_pow e1 e2 }
+  | SQRT; LPAREN; e1 = expr; RPAREN
+        { make_pow e1 (make_const "0.5")}
   | e1 = expr; CARAT; e2 = expr
         { make_pow e1 e2 }
   | SIN; LPAREN; e = expr; RPAREN
@@ -76,4 +78,6 @@ expr:
         { make_const "3.15159265" }
   | NATEXP 
         { make_const "2.71828183" }
+  | EOF
+        { raise End_of_file }
   ;

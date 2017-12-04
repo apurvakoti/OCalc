@@ -31,14 +31,14 @@ let is_const e =
 (*[eval_as_consts f e1 e2] evaluates [e1] and [e2] as
  * constants using function [f]. Returns a result.*)
 let eval_as_consts f e1 e2 =
-  let fval = (match e1 with Const f -> f) in
-  let sval = (match e2 with Const f -> f) in
+  let fval = (match e1 with Const f -> f |_ -> failwith "should never see this") in
+  let sval = (match e2 with Const f -> f |_ -> failwith "should never see this") in
   Const (f fval sval)
 
 (*[eval_as_consts f e] is the single-argument
  * version of the above function. Returns a result.*)
  let eval_as_const f e =
-  let fval = (match e with Const f -> f) in
+  let fval = (match e with Const f -> f |_ -> failwith "should never see this") in
   if (compare (f fval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs.") else
   Const (f fval)
 
@@ -67,7 +67,6 @@ let rec eval_expr e scale =
   |NArcsin e -> eval_arcsin e scale
   |NArccos e -> eval_arccos e scale
   |NArctan e -> eval_arctan e scale
-  |_ -> failwith "Unimplemented"
 
 (***********************************************************************)
 
@@ -106,7 +105,7 @@ and eval_uop_helper e func scale =
   let operated = List.map func firstlst in
   (*the below check is only in UOP because NaN appears only with the
    * unary operators arcsin, arccos etc*)
-  if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs") else
+  if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale operated)
 
 
