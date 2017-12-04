@@ -24,7 +24,7 @@ let unexpected_error msg lexbuf =
             ^ "\noccurred at " ^ (location_message lexbuf))
 
 let parse parser_start s =
-  let lexbuf = from_string s in
+  let lexbuf = from_string (String.lowercase_ascii s) in
   parser_start Lexer.token lexbuf
 
 let parse_expr =

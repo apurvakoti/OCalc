@@ -45,8 +45,8 @@ val make_arccos : expr -> expr
 (*[make_arctan e] represents y = arctan(e)*)
 val make_arctan : expr -> expr
 
-(* [make_log e] represents y = log(e) *)
-val make_log : expr -> expr
+(* [make_ln e] represents y = ln(e) *)
+val make_ln : expr -> expr
 
 (* [make_pi ()] represents y = pi *)
 val make_pi : unit -> expr

@@ -14,4 +14,4 @@ type expr =
   |NArcsin of expr
   |NArccos of expr
   |NArctan of expr
-  |NLog of expr
+  |NLn of expr

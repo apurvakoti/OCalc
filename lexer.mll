@@ -123,6 +123,10 @@ rule token = parse
         { CARAT }
   | "pow"
         { POW }
+  | "log"
+        { LOG }
+  | "ln"
+        { LN }
   | "sin"
         { SIN }
   | "cos"

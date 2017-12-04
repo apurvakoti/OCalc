@@ -57,6 +57,7 @@ let rec eval_expr e scale =
   |NMult (e1, e2) -> eval_mult e1 e2 scale
   |NDiv (e1, e2) -> eval_div e1 e2 scale
   |NPow (e1, e2) -> eval_pow e1 e2 scale
+  |NLn e -> eval_ln e scale
   |NSin e -> eval_sin e scale
   |NCos e -> eval_cos e scale
   |NTan e -> eval_tan e scale
@@ -65,7 +66,7 @@ let rec eval_expr e scale =
   |NArctan e -> eval_arctan e scale
   |_ -> failwith "Unimplemented"
 
-(***********************************************************)
+(***********************************************************************)
 
 and eval_iden scale =
   Mapping (List.map (fun x -> (x, x)) scale) 
@@ -120,6 +121,9 @@ and eval_div e1 e2 scale =
 
 and eval_pow e1 e2 scale =
   eval_bop_helper e1 e2 ( ** ) scale
+
+and eval_ln e scale = 
+  eval_uop_helper e log scale
 
 and eval_sin e scale =
   eval_uop_helper e sin scale

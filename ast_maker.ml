@@ -39,8 +39,8 @@ let make_arccos e =
 let make_arctan e =
   NArctan e
 
-let make_log e =
-  NLog e
+let make_ln e =
+  NLn e
 
 let make_pi () =
   NConst "3.14159265"

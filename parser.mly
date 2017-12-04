@@ -9,11 +9,11 @@
 
 %token PLUS MINUS DIV TIMES
 
-%token POW LOG
+%token POW LOG LN
 
 %token SIN COS TAN ARCSIN ARCCOS ARCTAN
 
-%token PI NATEXP
+%token PI NATEXP 
 
 %token EOF
 
@@ -66,8 +66,10 @@ expr:
         { make_arccos e }
   | ARCTAN; LPAREN; e = expr; RPAREN
         { make_arctan e }
-  | LOG; LPAREN; e = expr; RPAREN
-        { make_log e }
+  | LN; LPAREN; e = expr; RPAREN
+        { make_ln e }
+  | LOG; LPAREN; e1 = expr; COMMA; e2 = expr; RPAREN
+        { make_div (make_ln e2) (make_ln e1) }
   | LPAREN; e = expr; LPAREN
         { e }
   | PI
