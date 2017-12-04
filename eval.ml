@@ -31,6 +31,7 @@ let both_consts e1 e2 =
 let eval_as_consts f e1 e2 =
   let fval = (match e1 with Const f -> f |_ -> failwith "should never see this") in
   let sval = (match e2 with Const f -> f |_ -> failwith "should never see this") in
+  if (f fval sval) = infinity then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Const (f fval sval)
 
 (*[eval_as_consts f e] is the single-argument
@@ -38,17 +39,21 @@ let eval_as_consts f e1 e2 =
  let eval_as_const f e =
   let fval = (match e with Const f -> f |_ -> failwith "should never see this") in
   if (compare (f fval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
+  if (f fval) = infinity then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Const (f fval)
 
 (********************)
-(*[transform min max] returns a list of 200 input values evenly distributed
+(*[transform min max] returns a list of 200 or 201 input values evenly distributed
  * between min and max. For instance, if min=1.0 and max=100.0, then the return
  * is [1.0; 1.5; 2.0; ...; 99.5; 100.0]*)
 let transform min max = 
-  let rec helper min' max' offset acc lacc = 
+  let lst = (let rec helper min' max' offset acc lacc = 
     if acc < min' then lacc else
     helper min' max' offset (acc -. offset) (acc::lacc)
-  in helper min max (0.005 *. ((max -. min)+.1.)) max []
+  in helper min max (0.005 *. ((max -. min)+.1.)) max []) in
+  let hd = List.hd lst in
+  if hd > min then min::lst else lst
+  
 
 (********THIS IS THE MAIN FUNCTION PLEASE DON'T GET LOST IN THE CODE*****)
 let rec eval_expr e scale =
@@ -91,6 +96,7 @@ and eval_bop_helper e1 e2 func scale =
     | Const f -> make_list_n f (List.length scale)
     | Mapping l -> List.map (fun (_, b) -> b) l) in
   let combined = List.map2 func firstlst secondlst in
+  if List.mem infinity combined then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale combined)
 
 and eval_uop_helper e func scale =
