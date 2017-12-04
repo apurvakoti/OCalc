@@ -15,10 +15,7 @@ val eval_expr : Ast.expr -> float list -> result
 
 
 (*[transform min max] returns a list of x-values between
- * [min] and [max]. Change in x is 0.05 * (max - min).*)
+ * [min] and [max]. Change in x is 0.005 * (max - min).*)
 val transform : float -> float -> float list
-
-(*(*[string_of_result r] is a string representing result [r].*)
-val string_of_result : result -> string*)
 
 

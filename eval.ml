@@ -43,12 +43,14 @@ let eval_as_consts f e1 e2 =
   Const (f fval)
 
 (********************)
-
+(*[transform min max] returns a list of 200 input values evenly distributed
+ * between min and max. For instance, if min=1.0 and max=100.0, then the return
+ * is [1.0; 1.5; 2.0; ...; 99.5; 100.0]*)
 let transform min max = 
   let rec helper min' max' offset acc lacc = 
-    if acc <= min' then lacc else
+    if acc < min' then lacc else
     helper min' max' offset (acc -. offset) (acc::lacc)
-  in helper min max (0.005 *. (max -. min)) max []
+  in helper min max (0.005 *. ((max -. min)+.1.)) max []
 
 (********THIS IS THE MAIN FUNCTION PLEASE DON'T GET LOST IN THE CODE*****)
 let rec eval_expr e scale =

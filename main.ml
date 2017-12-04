@@ -73,7 +73,7 @@ let rec main min max () =
                       else let minnum = float_of_string min' in
                       let maxnum = float_of_string max' in
                       if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
-                      else main minnum maxnum ()
+                      else print_endline "Scale set."; main minnum maxnum ()
                       in changescale ()
   | "see-scale" -> (print_endline ("x ϵ [" ^ (string_of_float min) ^ ", " ^ (string_of_float max) ^ "]. Type anything to continue."); 
                     let _ = read_line () in main min max ())             
@@ -83,7 +83,7 @@ let rec main min max () =
                                                 | End_of_file -> "")
          in print_endline interped; main min max ()
 
-let _ = print_endline "\n\n\n\n\nEnter a function, \"help\", \"quit\", \"see-scale\", or \"change-scale\".\n"; main 1. 10. ()
+let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see-scale\", or \"change-scale\".\n"; main 1. 10. ()
 
 
 

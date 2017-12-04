@@ -1,5 +1,5 @@
 (*[expr] is the type of mathematical functions - can be a function itself or an operator
- *on one or more functions.*)
+ *on one or two functions.*)
 type expr = 
   |NIdent
   |NConst of string
