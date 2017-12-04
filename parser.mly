@@ -5,15 +5,17 @@
 
 
 %token <string> CONST
-%token IDENT
+%token IDENT Y
 
-%token PLUS MINUS DIV TIMES
+%token PLUS MINUS DIV TIMES 
 
 %token POW LOG LN SQRT
 
 %token SIN COS TAN ARCSIN ARCCOS ARCTAN
 
 %token PI NATEXP PHI
+
+%token EQUALS
 
 %token EOF
 
@@ -82,6 +84,8 @@ expr:
         { make_const "2.71828183" }
   | PHI
         { make_const "1.61803399" }
+  | Y; EQUALS; e = expr
+        { e }
   | EOF
         { raise End_of_file }
   ;

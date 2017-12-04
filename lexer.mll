@@ -148,6 +148,10 @@ rule token = parse
         { NATEXP }
   | "phi"
         { PHI }
+  | "y"
+        { Y }
+  | "="
+        { EQUALS }
   | eof
         { EOF }
   | word

@@ -30,6 +30,12 @@ let help_text =
   evaluates to a constant is entered, the calculated value is displayed; if a function is entered,
   the function is graphed within the specified range.\n
   The default scale is x ϵ [1.0, 10.0].\n\n
+  SUPPORTED COMMANDS: \n
+  - \"help\"
+  - \"quit\"
+  - \"see-scale\"
+  - \"change-scale\"\n\n
+
   SUPPORTED CONSTANTS:\n
   - \"pi\" (3.14159...)
   - \"e\" (2.71828...)
@@ -40,7 +46,7 @@ let help_text =
   - x
   - expr + expr
   - expr - expr
-  - expr1 * expr2
+  - expr1 * expr2 [constx is shorthand for const*x]
   - expr / expr
   - pow(expr, expr) [or expr^expr]
   - sqrt(expr)
