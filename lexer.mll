@@ -146,6 +146,8 @@ rule token = parse
         { PI }
   | "e"
         { NATEXP }
+  | "phi"
+        { PHI }
   | eof
         { EOF }
   | word

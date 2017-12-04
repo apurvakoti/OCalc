@@ -31,8 +31,9 @@ let help_text =
   the function is graphed within the specified range.\n
   The default scale is x ϵ [1.0, 10.0].\n\n
   SUPPORTED CONSTANTS:\n
-  \"pi\" (3.14159...)\n
-  \"e\" (2.71828...)\n\n
+  - \"pi\" (3.14159...)
+  - \"e\" (2.71828...)
+  - \"phi\" (1.61803...)\n\n
   SUPPORTED FUNCTIONS:\n
   In the following, \"expr\" refers to what can be another function, allowing for
   nested functions.\n
@@ -48,8 +49,7 @@ let help_text =
   - arctan(expr)
   - ln(expr)
   - log(expr1, expr2) [i.e. log of expr2 to the base expr1]\n\n
-  Make sure your inputs are syntactically valid with parentheses according to the above guide. Inputs are case-insensitive.
- \n Type anything to continue."
+  Make sure your inputs are syntactically valid with parentheses according to the above guide. Inputs are case-insensitive."
 
 
 
@@ -63,7 +63,7 @@ let rec main min max () =
                |"n" -> main min max ()
                | _ -> print_endline "I didn't get that."; handle_quit ())
                in handle_quit ()
-  | "help" -> (print_endline help_text; let _ = read_line () in main min max ())
+  | "help" -> (print_endline help_text; main min max ())
   | "change-scale" -> let rec changescale () = 
                       print_endline "Enter min-bound:"; 
                       let min' = read_line () in
@@ -75,8 +75,8 @@ let rec main min max () =
                       if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
                       else print_endline "Scale set."; main minnum maxnum ()
                       in changescale ()
-  | "see-scale" -> (print_endline ("x ϵ [" ^ (string_of_float min) ^ ", " ^ (string_of_float max) ^ "]. Type anything to continue."); 
-                    let _ = read_line () in main min max ())             
+  | "see-scale" -> (print_endline ("x ϵ [" ^ (string_of_float min) ^ ", " ^ (string_of_float max) ^ "]."); 
+                    main min max ())             
   | e -> let interped = (try interp_expr e min max with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
                                                 | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" may not be defined."
                                                 | Eval.EvalExp s -> "Evaluation error: " ^ s

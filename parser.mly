@@ -13,14 +13,14 @@
 
 %token SIN COS TAN ARCSIN ARCCOS ARCTAN
 
-%token PI NATEXP 
+%token PI NATEXP PHI
 
 %token EOF
 
 
 %token LPAREN RPAREN COMMA CARAT
 
-%left PLUS MINUS TIMES DIV POW
+%left PLUS MINUS TIMES DIV CARAT
 
 
 %start <Ast.expr> parse_expression
@@ -48,6 +48,8 @@ expr:
         { make_minus e1 e2 }
   | e1 = expr; TIMES; e2 = expr
         { make_mult e1 e2 }
+  | c = CONST; IDENT
+        { make_mult (make_const c) (make_identity ()) }
   | e1 = expr; DIV; e2 = expr
         { make_div e1 e2 }
   | POW; LPAREN; e1 = expr; COMMA; e2 = expr; RPAREN
@@ -78,6 +80,8 @@ expr:
         { make_const "3.15159265" }
   | NATEXP 
         { make_const "2.71828183" }
+  | PHI
+        { make_const "1.61803399" }
   | EOF
         { raise End_of_file }
   ;

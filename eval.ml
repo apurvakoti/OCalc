@@ -14,19 +14,17 @@ exception EvalExp of string
 let rec make_list_n v n =
   if n = 0 then [] else (v::(make_list_n v (n-1)))
 
-(*[both_consts e1 e2] returns true iff e1 and e2 are both
- * constants.*)
-let both_consts e1 e2 =
-  match e1 with
-  |Const _ -> (match e2 with Const _ -> true |_ -> false)
-  |_ -> false
-
 (*[is_const e] returns true iff e is a
  * constant.*)
-let is_const e =
+let is_const e =  
   match e with
   |Const _ -> true
   |_ -> false
+
+(*[both_consts e1 e2] returns true iff e1 and e2 are both
+ * constants.*)
+let both_consts e1 e2 =
+  (is_const e1) && (is_const e2)
 
 (*[eval_as_consts f e1 e2] evaluates [e1] and [e2] as
  * constants using function [f]. Returns a result.*)
@@ -39,7 +37,7 @@ let eval_as_consts f e1 e2 =
  * version of the above function. Returns a result.*)
  let eval_as_const f e =
   let fval = (match e with Const f -> f |_ -> failwith "should never see this") in
-  if (compare (f fval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs.") else
+  if (compare (f fval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
   Const (f fval)
 
 (********************)
@@ -107,7 +105,7 @@ and eval_uop_helper e func scale =
   let operated = List.map func firstlst in
   (*the below check is only in UOP because NaN appears only with the
    * unary operators arcsin, arccos etc*)
-  if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs.") else
+  if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs or scale.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale operated)
 
 
