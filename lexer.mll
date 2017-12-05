@@ -17,7 +17,7 @@ let comment_depth = ref 0
 (******************************************************************)
 
 
-let string_buffer = Buffer.create 256
+(*let string_buffer = Buffer.create 256
 let reset_string_buffer () = Buffer.reset string_buffer
 let get_stored_string () = Buffer.contents string_buffer
 
@@ -67,7 +67,7 @@ let char_for_hexadecimal_code lexbuf i =
   let byte = hex_num_value lexbuf ~first:i ~last:(i+1) in
   Char.chr byte
 
-}
+*)}
 
 (******************************************************************)
 (* Lexer body *)

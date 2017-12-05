@@ -81,12 +81,13 @@ let rec main min max () =
                       if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
                       else print_endline "Scale set."; main minnum maxnum ()
                       in changescale ()
-  | "see-scale" -> (print_endline ("x ϵ [" ^ (string_of_float min) ^ ", " ^ (string_of_float max) ^ "]."); 
+  | "see-scale" -> (print_endline ("x ϵ [" ^(string_of_float min)^", "^(string_of_float max)^"]."); 
                     main min max ())             
-  | e -> let interped = (try interp_expr e min max with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
-                                                | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" may not be defined."
-                                                | Eval.EvalExp s -> "Evaluation error: " ^ s
-                                                | End_of_file -> "")
+  | e -> let interped = try interp_expr e min max 
+                        with| Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
+                            | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" may not be defined."
+                            | Eval.EvalExp s -> "Evaluation error: " ^ s
+                            | End_of_file -> "" 
          in print_endline interped; main min max ()
 
 let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see-scale\", or \"change-scale\".\n"; main 1. 10. ()
