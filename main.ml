@@ -70,26 +70,28 @@ let rec main min max () =
                | _ -> print_endline "I didn't get that."; handle_quit ())
                in handle_quit ()
   | "help" -> (print_endline help_text; main min max ())
-  | "change scale" -> let rec changescale () = 
-                      print_endline "Enter min-bound:"; 
-                      let min' = read_line () in
-                      print_endline "Enter max-bound:";
-                      let max' = read_line () in
-                      if not ((is_num min') && (is_num max')) then (print_endline "One or more bounds are invalid. Try again."; changescale ())
-                      else let minnum = float_of_string min' in
-                      let maxnum = float_of_string max' in
-                      if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
-                      else print_endline "Scale set."; main minnum maxnum ()
-                      in changescale ()
+  | "change scale" -> changescale ()
   | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float min)^", "^(string_of_float max)^"]."); 
                     main min max ())             
   | e -> let interped = try interp_expr e min max 
                         with| Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
                             | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
-                            | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not be defined. Did you mean " ^ x ^ "?"
+                            | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
                             | Eval.EvalExp s -> "Evaluation error: " ^ s
                             | End_of_file -> "" 
          in print_endline interped; main min max ()
+
+
+  and changescale () = 
+    print_endline "Enter min-bound:"; 
+    let min' = read_line () in
+    print_endline "Enter max-bound:";
+    let max' = read_line () in
+    if not ((is_num min') && (is_num max')) then (print_endline "One or more bounds are invalid. Try again."; changescale ())
+    else let minnum = float_of_string min' in
+    let maxnum = float_of_string max' in
+    if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
+    else print_endline "Scale set."; main minnum maxnum ()
 
 let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see scale\", or \"change scale\".\n"; main 1. 10. ()
 
