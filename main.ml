@@ -19,11 +19,6 @@ let interp_expr s min max =
 let is_num s =
   try ignore (float_of_string s); true with _ -> false
 
-(*let rec ensure_number () =
-  let inp = read_line () in
-  if is_num inp then inp
-  else print_endline "Not a number. Try again."; ensure_number ()*)
-
 
 let help_text = 
   "This program acts as a numeric calculator and as a graphing calculator. If what

@@ -31,19 +31,23 @@ let both_consts e1 e2 =
 let eval_as_consts f e1 e2 =
   let fval = (match e1 with Const f -> f |_ -> failwith "should never see this") in
   let sval = (match e2 with Const f -> f |_ -> failwith "should never see this") in
-  if (compare (f fval sval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
-  if (f fval sval) = infinity then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
-  Const (f fval sval)
+  let result = f fval sval in
+  if (compare result nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
+  if result = infinity || result = neg_infinity 
+  then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
+  Const result
 
 (*[eval_as_consts f e] is the single-argument
  * version of the above function. Returns a result.*)
  let eval_as_const f e =
   let fval = (match e with Const f -> f |_ -> failwith "should never see this") in
-  if (compare (f fval) nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
-  if (f fval) = infinity then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
-  Const (f fval)
+  let result = f fval in
+  if (compare result nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
+  if result = infinity || result = neg_infinity
+  then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
+  Const result
 
-(********************)
+(********************************)
 (*[transform min max] returns a list of 200 or 201 input values evenly distributed
  * between min and max. For instance, if min=1.0 and max=100.0, then the return
  * is [1.0; 1.5; 2.0; ...; 99.5; 100.0]*)
@@ -100,7 +104,8 @@ and eval_bop_helper e1 e2 func scale =
     | Mapping l -> List.map (fun (_, b) -> b) l) in
   let combined = List.map2 func firstlst secondlst in
   if List.mem nan combined then raise (EvalExp "Not a number. Check your inputs or scale.") else
-  if List.mem infinity combined then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
+  if List.mem infinity combined || List.mem neg_infinity combined 
+  then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale combined)
 
 and eval_uop_helper e func scale =
@@ -114,6 +119,8 @@ and eval_uop_helper e func scale =
     | Mapping l -> List.map (fun (_, b) -> b) l) in
   let operated = List.map func firstlst in
   if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs or scale.") else
+  if List.mem infinity operated || List.mem neg_infinity operated 
+  then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale operated)
 
 
