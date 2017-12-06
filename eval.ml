@@ -54,7 +54,9 @@ let transform min max =
   in helper min max (0.005 *. ((max -. min)+.1.)) max []) in
   let hd = List.hd lst in
   if hd > min then min::lst else lst
-  
+
+
+
 
 (********THIS IS THE MAIN FUNCTION PLEASE DON'T GET LOST IN THE CODE*****)
 let rec eval_expr e scale =

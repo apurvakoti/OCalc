@@ -33,8 +33,8 @@ let help_text =
   SUPPORTED COMMANDS: \n
   - \"help\"
   - \"quit\"
-  - \"see-scale\"
-  - \"change-scale\"\n\n
+  - \"see scale\"
+  - \"change scale\"\n\n
 
   SUPPORTED CONSTANTS:\n
   - \"pi\" (3.14159...)
@@ -62,7 +62,7 @@ let help_text =
 
 let rec main min max () =
   print_string  "\n> ";
-  match String.lowercase_ascii (read_line ()) with
+  match String.lowercase_ascii (read_line ()) |> String.trim with
   | "quit" ->  print_endline "\nAre you sure? Y/N"; let rec handle_quit () = ( 
                match (String.lowercase_ascii (read_line ())) with 
                |"y" -> ()
@@ -70,7 +70,7 @@ let rec main min max () =
                | _ -> print_endline "I didn't get that."; handle_quit ())
                in handle_quit ()
   | "help" -> (print_endline help_text; main min max ())
-  | "change-scale" -> let rec changescale () = 
+  | "change scale" -> let rec changescale () = 
                       print_endline "Enter min-bound:"; 
                       let min' = read_line () in
                       print_endline "Enter max-bound:";
@@ -81,16 +81,17 @@ let rec main min max () =
                       if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
                       else print_endline "Scale set."; main minnum maxnum ()
                       in changescale ()
-  | "see-scale" -> (print_endline ("x ϵ [" ^(string_of_float min)^", "^(string_of_float max)^"]."); 
+  | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float min)^", "^(string_of_float max)^"]."); 
                     main min max ())             
   | e -> let interped = try interp_expr e min max 
                         with| Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
-                            | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" may not be defined."
+                            | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
+                            | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not be defined. Did you mean " ^ x ^ "?"
                             | Eval.EvalExp s -> "Evaluation error: " ^ s
                             | End_of_file -> "" 
          in print_endline interped; main min max ()
 
-let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see-scale\", or \"change-scale\".\n"; main 1. 10. ()
+let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see scale\", or \"change scale\".\n"; main 1. 10. ()
 
 
 

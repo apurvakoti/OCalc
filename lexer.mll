@@ -1,7 +1,10 @@
 
 (**********************************)
 (* ACKNOWLEDGMENTS: Much of the regular expression logic was adapted from
-the A4 source code - written by Michael Clarkson*)
+the A4 source code - written by Michael Clarkson.
+
+Levenshtein algorithm adapted from the Wikipedia page description.
+https://en.wikipedia.org/wiki/Levenshtein_distance*)
 (**********************************)
 
 {
@@ -10,64 +13,43 @@ open Parser
 
 exception Error of string
 
+exception Autocorrect of string*string
+
 let comment_depth = ref 0
 
-(******************************************************************)
-(* Helper functions for lexing strings *)
-(******************************************************************)
+(*******AUTOCORRECT - LEVENSHTEIN AND DICTIONARY********)
 
+(*[levenshtein s1 l1 s2 l2] calculates the minimum number of single-character
+ * transformations (could be an addition, switch or deletion) required to take
+ * string s1 to s2. l1 and l2 are the lengths of strings s1 and s2, respectively.
+ * Follows the Levenshtein distance algorithm.*)
+ let rec levenshtein s1 l1 s2 l2 =
+  if l1 = 0 then l2 else
+  if l2 = 0 then l1 else
+  let cost = (if s1.[l1-1] = s2.[l2-1] then 0 else 1) in
+  let minimum x y z = List.hd (List.sort (-) [x;y;z]) in
+  minimum ((levenshtein s1 (l1-1) s2 l2)+1) ((levenshtein s1 l1 s2 (l2-1))+1)
+          ((levenshtein s1 (l1-1) s2 (l2-1))+cost)
 
-(*let string_buffer = Buffer.create 256
-let reset_string_buffer () = Buffer.reset string_buffer
-let get_stored_string () = Buffer.contents string_buffer
+(*[dictionary] contains all the supported functions*)
+let dictionary = ["pi"; "e"; "phi";
+  "pow"; "sqrt"; 
+  "sin"; "cos"; "tan";
+  "arcsin"; "arccos"; "arctan";
+  "ln"; "log"]
 
-let store_string_char c = Buffer.add_char string_buffer c
-let store_string s = Buffer.add_string string_buffer s
-let store_lexeme lexbuf = store_string (Lexing.lexeme lexbuf)
-
-let store_escaped_char lexbuf c = store_string_char c
-
-let hex_digit_value d = (* assert (d in '0'..'9' 'a'..'f' 'A'..'F') *)
-  let d = Char.code d in
-  if d >= 97 then d - 87 else
-  if d >= 65 then d - 55 else
-  d - 48
-
-let hex_num_value lexbuf ~first ~last =
-  let rec loop acc i = match i > last with
-  | true -> acc
-  | false ->
-      let value = hex_digit_value (Lexing.lexeme_char lexbuf i) in
-      loop (16 * acc + value) (i + 1)
-  in
-  loop 0 first
-
-let char_for_backslash = function
-  | 'n' -> '\010'
-  | 'r' -> '\013'
-  | 'b' -> '\008'
-  | 't' -> '\009'
-  | c   -> c
-
-let char_for_decimal_code lexbuf i =
-  let c = 100 * (Char.code(Lexing.lexeme_char lexbuf i) - 48) +
-           10 * (Char.code(Lexing.lexeme_char lexbuf (i+1)) - 48) +
-                (Char.code(Lexing.lexeme_char lexbuf (i+2)) - 48) in
-  if (c < 0 || c > 255)
-    then raise (Error "Encoding error")
-    else Char.chr c
-
-let char_for_octal_code lexbuf i =
-  let c = 64 * (Char.code(Lexing.lexeme_char lexbuf i) - 48) +
-           8 * (Char.code(Lexing.lexeme_char lexbuf (i+1)) - 48) +
-               (Char.code(Lexing.lexeme_char lexbuf (i+2)) - 48) in
-  Char.chr c
-
-let char_for_hexadecimal_code lexbuf i =
-  let byte = hex_num_value lexbuf ~first:i ~last:(i+1) in
-  Char.chr byte
-
-*)}
+  (*[autocorrect s lst] returns the string in [lst] whose
+   * Levenshtein distance to [s] is lowest, bounded above
+   * by 2. Returns None if no such string.*)
+   let autocorrect s l =
+      let rec helper s l num word =
+      (match l with
+      |[] -> word
+      |h::t -> let lev = levenshtein s (String.length s) h (String.length h) in
+               if (lev <= 2) && (lev <= num) then helper s t lev (Some h) 
+               else helper s t num word)
+      in helper s l 2 None
+}
 
 (******************************************************************)
 (* Lexer body *)
@@ -155,6 +137,10 @@ rule token = parse
   | eof
         { EOF }
   | word
-        { raise (Error (Lexing.lexeme lexbuf))}
+        { let s = Lexing.lexeme lexbuf in
+          match autocorrect s dictionary with
+          |None -> raise (Error (Lexing.lexeme lexbuf))
+          |Some x -> raise (Autocorrect ((Lexing.lexeme lexbuf), x)) }
+              
   | _
         { raise (Error (Lexing.lexeme lexbuf))}

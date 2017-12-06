@@ -79,7 +79,7 @@ expr:
   | LPAREN; e = expr; LPAREN
         { e }
   | PI
-        { make_const "3.15159265" }
+        { make_const "3.14159265" }
   | NATEXP 
         { make_const "2.71828183" }
   | PHI
