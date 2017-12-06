@@ -3,12 +3,13 @@ open GdkKeysyms
 open GDraw
 open GObj
 open GtkObject
+open GPack
 
 let locale = GtkMain.Main.init ()
 
 let main () =
-  let window = GWindow.window ~width:320 ~height:240
-                              ~title:"Simple lablgtk program" () in
+  let window = GWindow.window ~width:500 ~height:500
+      ~title:"Simple lablgtk program" () in
   let vbox = GPack.vbox ~packing:window#add () in
   window#connect#destroy ~callback:Main.quit;
 
@@ -21,45 +22,46 @@ let main () =
   (* File menu *)
   let factory = new GMenu.factory file_menu ~accel_group in
   factory#add_item "Quit" ~key:_Q ~callback: Main.quit;
+  factory#add_item "Zoom In" ~key:_I ~callback: (fun () -> prerr_endline "zoom in");
+  factory#add_item "Zoom Out" ~key:_O ~callback: (fun () -> prerr_endline "zoom out");
 
   (* Button *)
-  let button = GButton.button ~label:"+"
-                              ~packing:vbox#add () in
-  button#connect#clicked ~callback: (fun () -> prerr_endline "zoom in");
+  let button_table : ((int * int), GButton.button) Hashtbl.t = (Hashtbl.create 64) in
 
-  let button = GButton.button ~label:"-"
-                              ~packing:vbox#add () in
-  button#connect#clicked ~callback: (fun () -> prerr_endline "zoom out");
+  (*https://github.com/klartext/lablgtk2-ocaml-Tutorial/blob/master/markdown/c669.md*)
+  (* Create a new hbox with an image and a label packed into it
+   * and pack the box *)
+let xpm_label_box ~file ~packing () =
+  if not (Sys.file_exists file) then failwith (file ^ " does not exist");
 
-  (*  (* Create the drawing area. *)
-  let da = GMisc.drawing_area ~packing:vbox#add () in
-  let drawable = lazy (new GDraw.drawable da#misc#window) in
+  (* Create box for image and label and pack *)
+  let box = GPack.hbox ~border_width:0 ~packing () in
 
-  object (self)
-(* inherit widget vbox#as_widget *)
-inherit gtk_object obj
+  (* Now on to the image stuff and pack into box *)
+  let pixmap = GDraw.pixmap_from_xpm ~file () in
+  GMisc.pixmap pixmap ~packing:(box#pack ~padding:0) ();  ()
 
-    initializer
-      ignore(da#event#connect#expose
-               ~callback:(fun _ -> self#repaint (); false));
-      ignore(adjustment#connect#value_changed
-               ~callback:(fun _ -> self#repaint ()))
+  (* Create a label for the button and pack into box *)
+  (* GMisc.label ~text ~packing:(box#pack ~padding:3) ()  *)
 
-  method repaint ()=
-    let drawable = Lazy.force drawable in
-    let (width, height) = drawable#size in
-  drawable#set_background `WHITE;
-      drawable#line ~x:40 ~y:(height-40) ~x:(width-40) ~y:(height-40); *)
+in
+  let hbox_table = GPack.hbox ~packing:vbox#add () in
+  let table = GPack.table ~homogeneous:true ~width: 350 ~height: 350
+      ~packing:hbox_table#add () in
 
-  let array = Array.init 100 (fun _ -> Random.int 10) in
-    (* Create a graph in the main area. *)
-    let graph = new graph font ~packing:vbox#add array in
-    graph#set_title "Random data";
-
-
+      for x = 0 to 10 do
+        for y = 0 to 10 do
+          let button = GButton.button () in
+          Hashtbl.add button_table (x,y) button;
+          table#attach ~left:x ~top:y ~expand:`BOTH (button#coerce);
+          (if (x,y) = (5, 5)
+           then xpm_label_box ~file:"green.xpm" ~packing:button#add ()
+          );
+        done
+        done;
   (* Display the windows and enter Gtk+ main loop *)
   window#add_accel_group accel_group;
   window#show ();
   Main.main ()
 
-  let () = main ()
+let () = main ()
