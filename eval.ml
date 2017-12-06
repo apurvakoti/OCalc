@@ -55,7 +55,7 @@ let transform min max =
   let lst = (let rec helper min' max' offset acc lacc = 
     if acc < min' then lacc else
     helper min' max' offset (acc -. offset) (acc::lacc)
-  in helper min max (0.005 *. ((max -. min)+.1.)) max []) in
+  in helper min max (0.001 *. ((max -. min)+.1.)) max []) in
   let hd = List.hd lst in
   if hd > min then min::lst else lst
 

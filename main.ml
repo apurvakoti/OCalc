@@ -1,5 +1,6 @@
 open Ast
 open Eval
+open Grapher
 
 
 (*Overriding [string_of_float]*)
@@ -19,7 +20,7 @@ let interp_expr s min max =
     try (let parsed = Parse.parse_expr s in
     let eval = Eval.eval_expr parsed (Eval.transform min max) in
     (fun r -> (match r with |Const f -> string_of_float f
-                            |Mapping l -> lst_to_string l "")) eval)
+                            |Mapping l -> Grapher.set_up s min max l; "plotting"(*lst_to_string l ""*)) eval)
     with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
     | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
     | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
