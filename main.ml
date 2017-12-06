@@ -2,23 +2,33 @@ open Ast
 open Eval
 
 
+(*Overriding [string_of_float]*)
+let string_of_float f =
+  let st = string_of_float f in
+  if st.[(String.length st) - 1] = '.'
+  then st ^ "0"
+  else st
+
+(*[lst_to_string] converts a float list [lst] to a string representation.*)
 let rec lst_to_string lst acc =
   match lst with
   |[] -> acc
   |(k, v)::t -> lst_to_string t (acc ^ "(" ^ (string_of_float k) ^ "," ^ (string_of_float v) ^ ")" ^ "; ")
 
 let interp_expr s min max =
-    let parsed = Parse.parse_expr s in
+    try (let parsed = Parse.parse_expr s in
     let eval = Eval.eval_expr parsed (Eval.transform min max) in
-    (fun r -> (match r with |Const f -> let st = string_of_float f in
-                                        if st.[(String.length st) - 1] = '.'
-                                        then st ^ "0"
-                                        else st
-                            |Mapping l -> lst_to_string l "")) eval
+    (fun r -> (match r with |Const f -> string_of_float f
+                            |Mapping l -> lst_to_string l "")) eval)
+    with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
+    | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
+    | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
+    | Eval.EvalExp s -> "Evaluation error: " ^ s
+    | End_of_file -> "" 
 
+(*[is_num s] is true [s] is a valid string representation of a number.*)
 let is_num s =
   try ignore (float_of_string s); true with _ -> false
-
 
 let help_text = 
   "This program acts as a numeric calculator and as a graphing calculator. If what
@@ -68,15 +78,9 @@ let rec main min max () =
   | "change scale" -> changescale ()
   | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float min)^", "^(string_of_float max)^"]."); 
                     main min max ())             
-  | e -> let interped = try interp_expr e min max 
-                        with| Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
-                            | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
-                            | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
-                            | Eval.EvalExp s -> "Evaluation error: " ^ s
-                            | End_of_file -> "" 
-         in print_endline interped; main min max ()
+  | e -> let interped = interp_expr e min max in print_endline interped; main min max ()
 
-
+  (*[changescale ()] is a helper "REPL" meant to process the scale change input sequence.*)
   and changescale () = 
     print_endline "Enter min-bound:"; 
     let min' = read_line () in
