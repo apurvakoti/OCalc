@@ -34,10 +34,10 @@ let make_arcsin e =
   NArcsin e
 
 let make_arccos e =
-  NArccos
+  NArccos e
 
 let make_arctan e =
   NArctan e
 
-let make_log e =
-  NLog e
+let make_ln e =
+  NLn e

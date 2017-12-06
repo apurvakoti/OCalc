@@ -105,3 +105,4 @@ class graph font ?width ?height ?packing ?show array =
       done;
       ()
   end
+    (*help*)

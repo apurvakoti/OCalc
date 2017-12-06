@@ -1,3 +1,5 @@
+(*[expr] is the type of mathematical functions - can be a function itself or an operator
+ *on one or two functions.*)
 type expr = 
   |NIdent
   |NConst of string
@@ -12,4 +14,4 @@ type expr =
   |NArcsin of expr
   |NArccos of expr
   |NArctan of expr
-  |NLog of expr
+  |NLn of expr
