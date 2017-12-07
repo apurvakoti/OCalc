@@ -69,10 +69,4 @@ let set_up title minx maxx miny maxy assoc_lst =
     else ()
   done;
 
-  let clickcoords = (let ev = wait_next_event [Button_down] in
-    (ev.mouse_x, ev.mouse_y)) in
-
-  let intlst = List.map (fun (a, b) -> (int_of_float a),(int_of_float b)) filterlst in
-  if true then
-  (print_endline ("x: " ^ (string_of_int (fst clickcoords)) ^ ", y: " ^ (string_of_int (snd clickcoords))))
-  else ()
+  ()
