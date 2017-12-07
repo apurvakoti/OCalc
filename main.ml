@@ -101,4 +101,13 @@ let rec main minx maxx miny maxy () =
     if minnum >= maxnum || minnum' >= maxnum' then (print_endline "Min must be strictly less than max."; changescale ())
     else print_endline "Scale set."; main minnum maxnum minnum' maxnum' ()
 
-let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see scale\", or \"change scale\".\n"; main (-10.) 10. (-10.) 10. ()
+let _ = print_endline "\n\n\n\n
+________  ________  ________  ___       ________     
+|\\   __  \\|\\   ____\\|\\   __  \\|\\  \\     |\\   ____\\    
+\\ \\  \\|\\  \\ \\  \\___|\\ \\  \\|\\  \\ \\  \\    \\ \\  \\___|    
+ \\ \\  \\\\\\  \\ \\  \\    \\ \\   __  \\ \\  \\    \\ \\  \\       
+  \\ \\  \\\\\\  \\ \\  \\____\\ \\  \\ \\  \\ \\  \\____\\ \\  \\____  
+   \\ \\_______\\ \\_______\\ \\__\\ \\__\\ \\_______\\ \\_______\\
+    \\|_______|\\|_______|\\|__|\\|__|\\|_______|\\|_______|
+
+\n\nEnter a function, \"help\", \"quit\", \"see scale\", or \"change scale\".\n"; main (-10.) 10. (-10.) 10. ()
