@@ -26,7 +26,7 @@ let interp_expr s minx maxx miny maxy =
     | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
     | Eval.EvalExp s -> "Evaluation error: " ^ s
     | End_of_file -> ""
-    | e -> "Failure. Bounds may be too extreme."
+    | e -> "Couldn't plot. Bounds may be too extreme."
     
 
 (*[is_num s] is true [s] is a valid string representation of a number.*)
