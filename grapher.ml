@@ -47,11 +47,6 @@ let set_up title minx maxx miny maxy assoc_lst =
     y := (!y + 80);
   done;
 
-  (*let maxy = List.fold_left (fun (a, b) (c, d) -> max b d) (0.,0.) assoc_lst in*)
-  (*let maxy = List.map (fun (a, b) -> b) assoc_lst |> List.fold_left max 0. in
-  (*let miny = List.fold_left (fun (a, b) (c, d) -> min b d) (0.,0.) assoc_lst in*)
-  let miny = List.map (fun (a, b) -> b) assoc_lst |> List.fold_left min 0. in*)
-
   let transformx x = ((x -. minx) /. (maxx -. minx)) *. 800. in
   let transformy y = ((y -. miny) /. (maxy -. miny)) *. 720. |> (+.) 40. in
   let finallst = List.map (fun (x, y) -> (transformx x),(transformy y)) assoc_lst in
