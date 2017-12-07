@@ -8,7 +8,7 @@ type result =
 exception EvalExp of string
 
 
-(*HELPERS*)
+(*-------------------HELPERS----------------------------*)
 (*[make_list_n v n] creates a list of size n
  * in which all the elements are v.*)
 let rec make_list_n v n =
@@ -47,8 +47,8 @@ let eval_as_consts f e1 e2 =
   then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Const result
 
-(********************************)
-(*[transform min max] returns a list of 200 or 201 input values evenly distributed
+(*---------------------------------------------------*)
+(*[transform min max] returns a list of 5000 input values evenly distributed
  * between min and max. For instance, if min=1.0 and max=100.0, then the return
  * is [1.0; 1.5; 2.0; ...; 99.5; 100.0]*)
 let transform min max =

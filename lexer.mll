@@ -29,17 +29,6 @@ let minimum a b c =
 * string s to string t.
 * Follows the Levenshtein distance algorithm.*)
 let rec levenshtein s t =
-  (*if l1 = 0 then l2 else
-  if l2 = 0 then l1 else
-  let cost = (if s1.[l1-1] = s2.[l2-1] then 0 else 1) in
-  let minimum x y z = List.hd (List.sort (-) [x;y;z]) in
-  minimum ((levenshtein s1 (l1-1) s2 l2)+1) ((levenshtein s1 l1 s2 (l2-1))+1)
-          ((levenshtein s1 (l1-1) s2 (l2-1))+cost)
-
-  let m = String.length s in
-  let n = String.length t in*)
-  
-
   let rec distance i j =
     match i, j with
     |i, 0 -> force (lazy i) (*i deletions needed to empty string*)
@@ -51,10 +40,7 @@ let rec levenshtein s t =
   in distance (String.length s) (String.length t)
 
 
-
-
-
-(*[dictionary] contains all the supported functions*)
+(*[dictionary] is a list of all the supported functions/inputs*)
 let dictionary = 
   ["pi"; "e"; "phi";
   "pow"; "sqrt"; 
@@ -62,7 +48,8 @@ let dictionary =
   "arcsin"; "arccos"; "arctan";
   "ln"; "log"]
 
-(*[autocorrect s lst] returns the string in [lst] whose
+(*[autocorrect s lst] returns [Some s'] where s' is the
+* string in [lst] whose
 * Levenshtein distance to [s] is lowest, bounded above
 * by 2. Returns None if no such string.*)
 let autocorrect s l =

@@ -81,7 +81,7 @@ expr:
   | PI
         { make_const "3.14159265" }
   | NATEXP 
-        { make_const "2.71828183" }
+        { make_const (string_of_float (exp 1.)) }
   | PHI
         { make_const "1.61803399" }
   | Y; EQUALS; e = expr
