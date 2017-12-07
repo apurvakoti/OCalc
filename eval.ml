@@ -16,7 +16,7 @@ let rec make_list_n v n =
 
 (*[is_const e] returns true iff e is a
  * constant.*)
-let is_const e =  
+let is_const e =
   match e with
   |Const _ -> true
   |_ -> false
@@ -33,7 +33,7 @@ let eval_as_consts f e1 e2 =
   let sval = (match e2 with Const f -> f |_ -> failwith "should never see this") in
   let result = f fval sval in
   if (compare result nan) = 0 then raise (EvalExp "Not a number. Check your inputs or scale.") else
-  if result = infinity || result = neg_infinity 
+  if result = infinity || result = neg_infinity
   then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Const result
 
@@ -51,11 +51,11 @@ let eval_as_consts f e1 e2 =
 (*[transform min max] returns a list of 200 or 201 input values evenly distributed
  * between min and max. For instance, if min=1.0 and max=100.0, then the return
  * is [1.0; 1.5; 2.0; ...; 99.5; 100.0]*)
-let transform min max = 
-  let lst = (let rec helper min' max' offset acc lacc = 
+let transform min max =
+  let lst = (let rec helper min' max' offset acc lacc =
     if acc < min' then lacc else
     helper min' max' offset (acc -. offset) (acc::lacc)
-  in helper min max (0.001 *. ((max -. min)+.1.)) max []) in
+  in helper min max (0.0002 *. ((max -. min)+.1.)) max []) in
   let hd = List.hd lst in
   if hd > min then min::lst else lst
 
@@ -83,18 +83,18 @@ let rec eval_expr e scale =
 (***********************************************************************)
 
 and eval_iden scale =
-  Mapping (List.map (fun x -> (x, x)) scale) 
+  Mapping (List.map (fun x -> (x, x)) scale)
 
 and eval_const c_val =
   Const (float_of_string c_val)
 
-and eval_bop_helper e1 e2 func scale = 
+and eval_bop_helper e1 e2 func scale =
   let first = eval_expr e1 scale in
   let second = eval_expr e2 scale in
-  if both_consts first second then 
+  if both_consts first second then
   eval_as_consts func first second
   else
-  let firstlst = 
+  let firstlst =
     (match first with
     | Const f -> make_list_n f (List.length scale)
     | Mapping l -> List.map (fun (_, b) -> b) l) in
@@ -104,22 +104,22 @@ and eval_bop_helper e1 e2 func scale =
     | Mapping l -> List.map (fun (_, b) -> b) l) in
   let combined = List.map2 func firstlst secondlst in
   if List.mem nan combined then raise (EvalExp "Not a number. Check your inputs or scale.") else
-  if List.mem infinity combined || List.mem neg_infinity combined 
+  if List.mem infinity combined || List.mem neg_infinity combined
   then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale combined)
 
 and eval_uop_helper e func scale =
   let first = eval_expr e scale in
-  if is_const first then 
+  if is_const first then
   eval_as_const func first
   else
-  let firstlst = 
+  let firstlst =
     (match first with
     | Const _ -> failwith "wasn't supposed to be a constant"
     | Mapping l -> List.map (fun (_, b) -> b) l) in
   let operated = List.map func firstlst in
   if List.mem nan operated then raise (EvalExp "Not a number. Check your inputs or scale.") else
-  if List.mem infinity operated || List.mem neg_infinity operated 
+  if List.mem infinity operated || List.mem neg_infinity operated
   then raise (EvalExp "Exceeds representable range. Check your inputs or scale.") else
   Mapping (List.map2 (fun a b -> (a, b)) scale operated)
 
@@ -130,10 +130,10 @@ and eval_add e1 e2 scale =
 and eval_minus e1 e2 scale =
   eval_bop_helper e1 e2 (-.) scale
 
-and eval_mult e1 e2 scale = 
+and eval_mult e1 e2 scale =
   eval_bop_helper e1 e2 ( *. ) scale
 
-and eval_div e1 e2 scale = 
+and eval_div e1 e2 scale =
   match eval_expr e2 scale with
   |Const 0. -> raise (EvalExp "Can't divide by zero.")
   |_ -> eval_bop_helper e1 e2 (/.) scale
@@ -141,13 +141,13 @@ and eval_div e1 e2 scale =
 and eval_pow e1 e2 scale =
   eval_bop_helper e1 e2 ( ** ) scale
 
-and eval_ln e scale = 
+and eval_ln e scale =
   eval_uop_helper e log scale
 
 and eval_sin e scale =
   eval_uop_helper e sin scale
 
-and eval_cos e scale = 
+and eval_cos e scale =
   eval_uop_helper e cos scale
 
 and eval_tan e scale =
@@ -161,6 +161,3 @@ and eval_arccos e scale =
 
 and eval_arctan e scale =
   eval_uop_helper e atan scale
-
-  
-  

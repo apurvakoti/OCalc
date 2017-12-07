@@ -1,5 +1,5 @@
 repl:
-	ocamlbuild -use-menhir main.byte && ./main.byte
+	ocamlbuild -use-menhir -lflags "graphics.cma" main.byte && ./main.byte
 
 clean:
 	ocamlbuild -clean

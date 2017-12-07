@@ -16,26 +16,27 @@ let rec lst_to_string lst acc =
   |[] -> acc
   |(k, v)::t -> lst_to_string t (acc ^ "(" ^ (string_of_float k) ^ "," ^ (string_of_float v) ^ ")" ^ "; ")
 
-let interp_expr s min max =
+let interp_expr s minx maxx miny maxy =
     try (let parsed = Parse.parse_expr s in
-    let eval = Eval.eval_expr parsed (Eval.transform min max) in
-    (fun r -> (match r with |Const f -> string_of_float f
-                            |Mapping l -> Grapher.set_up s min max l; "plotting"(*lst_to_string l ""*)) eval)
-    with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance." 
+    let eval = Eval.eval_expr parsed (Eval.transform minx maxx) in
+    match eval with |Const f -> string_of_float f
+                    |Mapping l -> (Grapher.set_up s minx maxx miny maxy l); "plotting")
+    with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance."
     | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
     | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
     | Eval.EvalExp s -> "Evaluation error: " ^ s
-    | End_of_file -> "" 
+    | e -> "Failure. Bounds may be too extreme."
+    | End_of_file -> ""
 
 (*[is_num s] is true [s] is a valid string representation of a number.*)
 let is_num s =
   try ignore (float_of_string s); true with _ -> false
 
-let help_text = 
+let help_text =
   "This program acts as a numeric calculator and as a graphing calculator. If what
   evaluates to a constant is entered, the calculated value is displayed; if a function is entered,
   the function is graphed within the specified range.\n
-  The default scale is x ϵ [1.0, 10.0].\n\n
+  The default scale is x ϵ [-10.0, 10.0], y ϵ [-10.0, 10.0],.\n\n
   SUPPORTED COMMANDS: \n
   - \"help\"
   - \"quit\"
@@ -66,35 +67,38 @@ let help_text =
 
 
 
-let rec main min max () =
+let rec main minx maxx miny maxy () =
   print_string  "\n> ";
   match String.lowercase_ascii (read_line ()) |> String.trim with
-  | "quit" ->  print_endline "\nAre you sure? Y/N"; let rec handle_quit () = ( 
-               match (String.lowercase_ascii (read_line ())) with 
+  | "quit" ->  (*print_endline "\nAre you sure? Y/N"; let rec handle_quit () = (
+               match (String.lowercase_ascii (read_line ())) with
                |"y" -> ()
                |"n" -> main min max ()
                | _ -> print_endline "I didn't get that."; handle_quit ())
-               in handle_quit ()
-  | "help" -> (print_endline help_text; main min max ())
+               in handle_quit ()*) ()
+  | "help" -> (print_endline help_text; main minx maxx miny maxy ())
   | "change scale" -> changescale ()
-  | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float min)^", "^(string_of_float max)^"]."); 
-                    main min max ())             
-  | e -> let interped = interp_expr e min max in print_endline interped; main min max ()
+  | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float minx)^", "^(string_of_float maxx)^"], " ^
+                                   "y ϵ [" ^(string_of_float miny)^", "^(string_of_float maxy)^"]");
+                    main minx maxx miny maxy ())
+  | e -> let interped = interp_expr e minx maxx miny maxy in print_endline interped; main minx maxx miny maxy ()
 
   (*[changescale ()] is a helper "REPL" meant to process the scale change input sequence.*)
-  and changescale () = 
-    print_endline "Enter min-bound:"; 
+  and changescale () =
+    print_endline "Enter min-bound x:";
     let min' = read_line () in
-    print_endline "Enter max-bound:";
+    print_endline "Enter max-bound x:";
     let max' = read_line () in
-    if not ((is_num min') && (is_num max')) then (print_endline "One or more bounds are invalid. Try again."; changescale ())
+    print_endline "Enter min-bound y:";
+    let min'' = read_line () in
+    print_endline "Enter max-bound y:";
+    let max'' = read_line () in
+    if not ((is_num min') && (is_num max') && (is_num min'') && (is_num max'')) then (print_endline "One or more bounds are invalid. Try again."; changescale ())
     else let minnum = float_of_string min' in
     let maxnum = float_of_string max' in
-    if minnum >= maxnum then (print_endline "Min must be strictly less than max."; changescale ())
-    else print_endline "Scale set."; main minnum maxnum ()
+    let minnum' = float_of_string min'' in
+    let maxnum' = float_of_string max'' in
+    if minnum >= maxnum || minnum' >= maxnum' then (print_endline "Min must be strictly less than max."; changescale ())
+    else print_endline "Scale set."; main minnum maxnum minnum' maxnum' ()
 
-let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see scale\", or \"change scale\".\n"; main 1. 10. ()
-
-
-
- 
+let _ = print_endline "\n\n\n\nEnter a function, \"help\", \"quit\", \"see scale\", or \"change scale\".\n"; main (-10.) 10. (-10.) 10. ()
