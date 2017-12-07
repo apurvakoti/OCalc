@@ -1,6 +1,4 @@
-(*[set_up min max assoc_lst] sets up the graph*)
-<<<<<<< HEAD
+(*[set_up minx maxx miny maxy assoc_lst] sets up the graph, with x-scale between
+*minx and maxx, and y-scale between miny and maxy, using pre-calculated values in
+*assoc_lst *)
 val set_up : string -> float -> float -> float -> float -> (float*float) list -> unit
-=======
-val set_up : string -> float -> float -> float -> float -> (float*float) list -> unit
->>>>>>> a85d4f4249d3a935d3ccc8bbb6b2e1185deffa90
