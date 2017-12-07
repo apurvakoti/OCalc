@@ -70,4 +70,3 @@ let set_up title minx maxx miny maxy assoc_lst =
   done;
 
   ()
-;
