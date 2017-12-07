@@ -48,7 +48,7 @@ let set_up title minx maxx miny maxy assoc_lst =
   done;
 
   let transformx x = ((x -. minx) /. (maxx -. minx)) *. 800. in
-  let transformy y = ((y -. miny) /. (maxy -. miny)) *. 720. |> (+.) 40. in
+  let transformy y = ((y -. miny) /. (maxy -. miny)) *. 800. in
   let finallst = List.map (fun (x, y) -> (transformx x),(transformy y)) assoc_lst in
   let filterlst = List.filter (fun (x, y) -> y >0. && y < 800.) finallst in
 
