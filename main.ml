@@ -20,7 +20,7 @@ let interp_expr s minx maxx miny maxy =
     try (let parsed = Parse.parse_expr s in
     let eval = Eval.eval_expr parsed (Eval.transform minx maxx) in
     match eval with |Const f -> string_of_float f
-                    |Mapping l -> (Grapher.set_up s minx maxx miny maxy l); "plotting")
+                    |Mapping l -> (Grapher.set_up s minx maxx miny maxy l); "")
     with | Parser.Error -> "Syntax error. Type \"help\" for syntax guidance."
     | Lexer.Error s -> "Interpretation error: \"" ^ s ^ "\" is not defined."
     | Lexer.Autocorrect (s, x) -> "Interpretation error: \"" ^ s ^ "\" is not defined. Did you mean " ^ x ^ "?"
