@@ -63,6 +63,7 @@ let help_text =
   - arctan(expr)
   - ln(expr)
   - log(expr1, expr2) [i.e. log of expr2 to the base expr1]\n\n
+  - y = expr [equivalent to any of the above forms]
   Make sure your inputs are syntactically valid with parentheses according to the above guide. Inputs are case-insensitive."
 
 
@@ -71,15 +72,10 @@ let help_text =
 let rec main minx maxx miny maxy () =
   print_string  "\n> ";
   match String.lowercase_ascii (read_line ()) |> String.trim with
-  | "quit" ->  (*print_endline "\nAre you sure? Y/N"; let rec handle_quit () = (
-               match (String.lowercase_ascii (read_line ())) with
-               |"y" -> ()
-               |"n" -> main min max ()
-               | _ -> print_endline "I didn't get that."; handle_quit ())
-               in handle_quit ()*) ()
+  | "quit" ->  ()
   | "help" -> (print_endline help_text; main minx maxx miny maxy ())
   | "change scale" -> changescale ()
-  | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float minx)^", "^(string_of_float maxx)^"], " ^
+  | "see scale" -> (print_endline ("x ϵ [" ^(string_of_float minx)^", "^(string_of_float maxx)^"], "^
                                    "y ϵ [" ^(string_of_float miny)^", "^(string_of_float maxy)^"]");
                     main minx maxx miny maxy ())
   | e -> let interped = interp_expr e minx maxx miny maxy in print_endline interped; main minx maxx miny maxy ()
@@ -94,12 +90,14 @@ let rec main minx maxx miny maxy () =
     let min'' = read_line () in
     print_endline "Enter max-bound y:";
     let max'' = read_line () in
-    if not ((is_num min') && (is_num max') && (is_num min'') && (is_num max'')) then (print_endline "One or more bounds are invalid. Try again."; changescale ())
+    if not ((is_num min') && (is_num max') && (is_num min'') && (is_num max'')) 
+    then (print_endline "One or more bounds are invalid. Try again."; changescale ())
     else let minnum = float_of_string min' in
     let maxnum = float_of_string max' in
     let minnum' = float_of_string min'' in
     let maxnum' = float_of_string max'' in
-    if minnum >= maxnum || minnum' >= maxnum' then (print_endline "Min must be strictly less than max."; changescale ())
+    if minnum >= maxnum || minnum' >= maxnum' 
+    then (print_endline "Min must be strictly less than max."; changescale ())
     else print_endline "Scale set."; main minnum maxnum minnum' maxnum' ()
 
 let _ = print_endline "\n\n\n\n
