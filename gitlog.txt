@@ -1,0 +1,507 @@
+commit 142b629c391f5c15df9edff3c814b249f45f774c
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Thu Dec 7 00:20:00 2017 -0500
+
+    readme
+
+ README.txt | 14 ++++++++++++++
+ 1 file changed, 14 insertions(+)
+
+commit 75489ce950c40fca1f9d7bae78ea14b66cc0be27
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 23:58:40 2017 -0500
+
+    pushing
+
+ grapher.ml | 5 -----
+ 1 file changed, 5 deletions(-)
+
+commit 3a48fa9666afea1781fc492b38b42bb80d3dae70
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 23:32:30 2017 -0500
+
+    Deleted parser mli
+
+ main.ml   | 16 +++++++---------
+ parse.mli |  2 --
+ 2 files changed, 7 insertions(+), 11 deletions(-)
+
+commit 17b6b575d4942e321cd5da0a7c306a8f09a66f80
+Merge: a1c1fd1 12e9761
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 23:29:52 2017 -0500
+
+    Merge branch 'master' of https://github.coecis.cornell.edu/jb2354/final
+
+commit a1c1fd1c76b7519c9c71fc3a88d7b01096573d0e
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 23:29:38 2017 -0500
+
+    changed comments
+
+ .gitignore  |  3 ++-
+ Makefile    |  3 +++
+ eval.ml     |  6 ++---
+ grapher.mli |  4 +--
+ lexer.mll   | 19 +++----------
+ main.ml     |  3 ++-
+ main.mli    |  5 +++-
+ parser.mly  |  2 +-
+ test.ml     | 89 ++++++++++++++++++++++++++++++++++++++++++-------------------
+ 9 files changed, 82 insertions(+), 52 deletions(-)
+
+commit 12e9761a63562637142304419a5fc978b025931d
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 22:25:03 2017 -0500
+
+    updated message
+
+ main.ml | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit b357baedfa2cbb7bb1c47e2610ae5d79f0a874d8
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 22:17:05 2017 -0500
+
+    tried and failed to implement clicking
+
+ grapher.ml | 8 +-------
+ 1 file changed, 1 insertion(+), 7 deletions(-)
+
+commit 8f5f93141770ffc877be989d99d27bb9c61d3900
+Merge: f38e4b5 769a6c8
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 22:03:59 2017 -0500
+
+    Merge branch 'master' of https://github.coecis.cornell.edu/jb2354/final
+
+commit f38e4b56e9ee24877448f744c1bc08d4430542a6
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 22:03:41 2017 -0500
+
+    button
+
+ grapher.ml | 9 +++++++--
+ main.ml    | 2 +-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+commit cb16e4fa3dd91cbbc9cec90ffd6fcd2113978077
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 21:33:48 2017 -0500
+
+    added ascii art lol
+
+ main.ml | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+commit 769a6c8da3d9c1833fadc3640e6f725dc0284a3d
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 21:27:02 2017 -0500
+
+    added comment
+
+ grapher.mli | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
+
+commit 3b6cf2bc3c4113efeefa14dfd2455ecb729903fe
+Merge: 290cb79 a85d4f4
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 21:25:36 2017 -0500
+
+    ok
+
+commit 290cb792e004242bad8905d408b06271d8957ff4
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 21:24:55 2017 -0500
+
+    lol
+
+ grapher.mli | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit a85d4f4249d3a935d3ccc8bbb6b2e1185deffa90
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 21:23:57 2017 -0500
+
+    update sizing
+
+ grapher.ml  | 42 +++++++++++++++++++++---------------------
+ grapher.mli |  2 +-
+ 2 files changed, 22 insertions(+), 22 deletions(-)
+
+commit 137f0d1e082e6a5defb527cec1ed09a733b39e5e
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 21:08:52 2017 -0500
+
+    YASS
+
+ Makefile     |   4 +--
+ a.out        | Bin 0 -> 85896 bytes
+ eval.ml      |  37 ++++++++++----------
+ graph.ml     |  75 -----------------------------------------
+ grapher.ml   |  83 +++++++++++++++++++++++++++++++--------------
+ graphing.ml  |  67 ------------------------------------
+ graphing2    | Bin 2098148 -> 0 bytes
+ graphing2.ml | 108 -----------------------------------------------------------
+ graphing3.ml |  45 -------------------------
+ main.ml      |  58 +++++++++++++++++---------------
+ main.mli     |  14 +++-----
+ 11 files changed, 113 insertions(+), 378 deletions(-)
+
+commit 639c75d83c7d3ee0a31fe57a1a84714079b9d628
+Merge: 33f3b95 f7e1556
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 18:48:52 2017 -0500
+
+    Merge branch 'master' of https://github.coecis.cornell.edu/jb2354/final
+
+commit 33f3b9561cd327f8c41033a791ff0b686bfba6de
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 18:48:34 2017 -0500
+
+    HORI SHET
+
+ eval.ml     |  2 +-
+ grapher.ml  | 40 ++++++++++++++++++++++++++++++++++++++++
+ grapher.mli |  2 ++
+ lexer.mll   | 58 +++++++++++++++++++++++++++++++++++++++++-----------------
+ main.ml     |  3 ++-
+ parse.ml    |  2 ++
+ test.ml     |  1 +
+ 7 files changed, 89 insertions(+), 19 deletions(-)
+
+commit f7e1556373631aed0e8cef8cc8304bb4f7ffb906
+Merge: be24c92 5604f0b
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 17:43:48 2017 -0500
+
+    idk
+
+commit be24c92d4dafc6277d95fd7c88ea1f71d3e5b7e1
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 17:41:38 2017 -0500
+
+    idk
+
+ graphing2 | Bin 0 -> 1837659 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 9985987898a7f28a7603d6529dd1a9f7c8330899
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Wed Dec 6 17:41:21 2017 -0500
+
+    idk
+
+ graphing     | Bin 2094997 -> 2098148 bytes
+ graphing.cmi | Bin 1735 -> 0 bytes
+ graphing.cmo | Bin 8820 -> 0 bytes
+ graphing.ml  |  64 ++++++++++++++++++++++++++++++-----------------------------
+ 4 files changed, 33 insertions(+), 31 deletions(-)
+
+commit 5604f0bdfbe7cd4889d05afb1b3b37cc2d44f558
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 16:25:25 2017 -0500
+
+    fixed mli
+
+ main.ml       | 36 ++++++++++++++++++++----------------
+ main.mli      | 18 ++++++++++++++++++
+ main_repl.mli |  8 --------
+ test.ml       | 41 +++++++++++++++++++++++++++++++++++++++++
+ 4 files changed, 79 insertions(+), 24 deletions(-)
+
+commit 3aa421c6aef5e5954a07416486ea8a8466a721f5
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 16:00:29 2017 -0500
+
+    everything
+
+ eval.ml | 23 +++++++++++++++--------
+ main.ml |  5 -----
+ 2 files changed, 15 insertions(+), 13 deletions(-)
+
+commit e2a1f7314d2943eeef5ee84cf3eaffd9fc87ba94
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 15:34:08 2017 -0500
+
+    done on my end
+
+ main.ml | 26 ++++++++++++++------------
+ 1 file changed, 14 insertions(+), 12 deletions(-)
+
+commit d0ca9cc20815e2588fa1c06904af33a9f072546e
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Dec 6 15:27:15 2017 -0500
+
+    Implemented autocorrect!! and fixed pi
+
+ eval.ml    |   4 ++-
+ lexer.mll  | 102 ++++++++++++++++++++++++++-----------------------------------
+ main.ml    |  15 ++++-----
+ parser.mly |   2 +-
+ 4 files changed, 56 insertions(+), 67 deletions(-)
+
+commit 5e9d1bde8dce0394b8895b27a13f58ff0c01aeaa
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Tue Dec 5 12:46:23 2017 -0500
+
+    removed some stuff
+
+ eval.ml   |  4 ++--
+ lexer.mll |  4 ++--
+ main.ml   | 11 ++++++-----
+ parse.ml  | 24 +++---------------------
+ 4 files changed, 13 insertions(+), 30 deletions(-)
+
+commit 7e31076c8a5882e28c0cd3a00373279d170d06a7
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Mon Dec 4 14:21:57 2017 -0500
+
+    Added handling for infinity
+
+ eval.ml | 12 +++++++++---
+ 1 file changed, 9 insertions(+), 3 deletions(-)
+
+commit 97888845949f91b977c21d057ca61689d2308148
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Mon Dec 4 13:59:57 2017 -0500
+
+    help
+
+ graphing => graphing2 | Bin 2094997 -> 1837729 bytes
+ lexer.mll             |   4 ++++
+ main.ml               |   8 +++++++-
+ parser.mly            |   8 ++++++--
+ 4 files changed, 17 insertions(+), 3 deletions(-)
+
+commit f6db9b2dfebef02e6b8564c1fcb369c5dc5dff54
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Mon Dec 4 12:13:20 2017 -0500
+
+    resolved some menhir warnings
+
+ eval.ml    | 18 ++++++++----------
+ lexer.mll  |  2 ++
+ main.ml    | 14 +++++++-------
+ parser.mly |  8 ++++++--
+ 4 files changed, 23 insertions(+), 19 deletions(-)
+
+commit 0d80c5128678c04089123d3404907d1ae8b02bad
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Mon Dec 4 00:23:49 2017 -0500
+
+    Finally done with the evaluation stuff
+
+ ast.ml   | 2 +-
+ eval.ml  | 8 +++++---
+ eval.mli | 5 +----
+ main.ml  | 4 ++--
+ 4 files changed, 9 insertions(+), 10 deletions(-)
+
+commit 1d1df779af921363fb2fc3ee8d74c6088b2bbcfa
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Mon Dec 4 00:14:27 2017 -0500
+
+    Made error handling nicer
+
+ eval.ml    |  9 ++++-----
+ lexer.mll  |  5 +++++
+ main.ml    | 52 ++++++++++++++++++++++++++++++----------------------
+ parser.mly |  6 +++++-
+ 4 files changed, 44 insertions(+), 28 deletions(-)
+
+commit acab1c433905a33522807ca0fc2718bcaa64aba8
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Dec 3 23:31:29 2017 -0500
+
+    added error handling
+
+ ast_maker.ml  |  8 +-------
+ ast_maker.mli |  6 ------
+ eval.ml       | 11 ++++++++---
+ eval.mli      |  4 ++++
+ main.ml       | 52 +++++++++++++++++++++++++++++++++++-----------------
+ parser.mly    |  4 ++--
+ 6 files changed, 50 insertions(+), 35 deletions(-)
+
+commit 33b164f982fb0a2b7511532c14d8877d93e743eb
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Dec 3 21:12:40 2017 -0500
+
+    made input more user friendly; added some sugaring
+
+ ast.ml        |  2 +-
+ ast_maker.ml  |  4 ++--
+ ast_maker.mli |  4 ++--
+ eval.ml       |  6 +++++-
+ lexer.mll     |  4 ++++
+ main.ml       | 40 +++++++++++++++++++++++++++++++++++++---
+ parse.ml      |  2 +-
+ parser.mly    | 10 ++++++----
+ 8 files changed, 58 insertions(+), 14 deletions(-)
+
+commit 95a832e720d745911f60a71a79458b633c7130d6
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Dec 3 20:50:31 2017 -0500
+
+    improved parser
+
+ .gitignore   |   4 +++-
+ eval.ml      |  55 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ graphing.cmi | Bin 1735 -> 0 bytes
+ graphing.cmo | Bin 8820 -> 0 bytes
+ lexer.mll    |  31 ++++++++++++++++---------------
+ main.ml      |   4 +++-
+ parse.ml     |   6 +-----
+ parser.mly   |   9 ++++++---
+ 8 files changed, 82 insertions(+), 27 deletions(-)
+
+commit 9917c051e1cf3e4bf15a5184c29eee0c1608bed0
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Dec 3 18:45:20 2017 -0500
+
+    please work
+
+ parser.mly | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 8b5954ecf9d0f451dd3d87be0785accb0322ec7d
+Merge: 20b3a5b 2ea0072
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Dec 3 18:44:32 2017 -0500
+
+    addded
+
+commit 20b3a5ba16f7605a8404da8b5757bf6701e62de0
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Dec 3 18:39:52 2017 -0500
+
+    GUYS OUR PARSER FINALLY WORKS
+
+ .gitignore    |   4 +++-
+ Makefile      |   2 +-
+ ast.ml        |   2 ++
+ ast.mli       |   3 ---
+ ast_maker.ml  |  10 ++++++++--
+ ast_maker.mli |   5 +++++
+ eval.ml       |  37 ++++++++++++++++++++++++-------------
+ eval.mli      |   8 ++++----
+ graphing.cmi  | Bin 1735 -> 0 bytes
+ graphing.cmo  | Bin 7203 -> 0 bytes
+ lexer.mll     |  35 -----------------------------------
+ main.ml       |  28 ++++++++++++++++++++++++++++
+ parse.ml      |  35 +++++++++++++++++++++++++++++++++++
+ parse.mli     |   2 ++
+ parser.mly    |  37 ++++++++++++++++++++++---------------
+ 15 files changed, 134 insertions(+), 74 deletions(-)
+
+commit 2ea0072b1bb080d7518b320506bd3ab5f6014d58
+Merge: a689a29 3da613c
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Sat Dec 2 16:03:28 2017 -0500
+
+    Merge branch 'master' of https://github.coecis.cornell.edu/jb2354/final
+
+commit a689a29b056932893fe858b6dd3c8d52089abb25
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Sat Dec 2 16:02:52 2017 -0500
+
+    graphing
+
+ graph.ml     |  75 +++++++++++++++++++++++++++++++++++++++++
+ graphing     | Bin 2093467 -> 2094997 bytes
+ graphing.cmi | Bin 1735 -> 1735 bytes
+ graphing.cmo | Bin 7203 -> 8820 bytes
+ graphing.ml  |  39 ++++++++++++++++++++--
+ graphing2.ml | 107 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ graphing3.ml |  45 +++++++++++++++++++++++++
+ 7 files changed, 263 insertions(+), 3 deletions(-)
+
+commit 3da613ca65ca3a12681bc00b3d4b482aabf1bc8d
+Merge: f0d27dd 565ea6d
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sat Dec 2 15:42:25 2017 -0500
+
+    Merge branch 'master' of https://github.coecis.cornell.edu/jb2354/final
+
+commit f0d27dd36ecddb5d2e4926bb9b67dcb3ed87fb66
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sat Dec 2 15:42:07 2017 -0500
+
+    added a bunch of shit
+
+ Makefile     |   5 ++
+ ast.ml       |  15 +++++
+ ast_maker.ml |  43 ++++++++++++++
+ eval.ml      |  81 +++++++++++++++++++++++++++
+ eval.mli     |  20 +++++++
+ lexer.mll    | 179 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ parser.mly   |  22 +++++++-
+ 7 files changed, 363 insertions(+), 2 deletions(-)
+
+commit 565ea6d576f9a76c86f76600b2cacfca8ebc592c
+Merge: 0578351 c90534b
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Sat Dec 2 14:05:38 2017 -0500
+
+    Merge branch 'master' of https://github.coecis.cornell.edu/jb2354/final
+
+commit 0578351b4891698462cd3b05f46fc0248cb6dcb7
+Author: jujub316 <juliana.bain@gmail.com>
+Date:   Sat Dec 2 14:05:28 2017 -0500
+
+    graphing
+
+ graphing     | Bin 0 -> 2093467 bytes
+ graphing.cmi | Bin 0 -> 1735 bytes
+ graphing.cmo | Bin 0 -> 7203 bytes
+ graphing.ml  |  32 ++++++++++++++++++++++++++++++++
+ 4 files changed, 32 insertions(+)
+
+commit c90534b7d6694a32fc8f107689adbc6b36a80959
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Nov 26 14:25:15 2017 -0500
+
+    added some parsing rules
+
+ ast_maker.mli | 19 +++++++++++++++++--
+ parser.mly    | 37 +++++++++++++++++++++++++++++++++++--
+ 2 files changed, 52 insertions(+), 4 deletions(-)
+
+commit dd7dbd067257c77a6cd1f0975bebc615da17f4c1
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Sun Nov 26 13:19:45 2017 -0500
+
+    Started off parser; added gitignore
+
+ .gitignore |  2 ++
+ parser.mly | 17 +++++++++++++++++
+ 2 files changed, 19 insertions(+)
+
+commit 4aaec12dcc094aa4d94adab412ca252ac46d7000
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Nov 15 17:40:38 2017 -0500
+
+    added zip
+
+ ms1zip.zip | Bin 0 -> 976 bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+commit 43dbbfda32fb60f485861dd5c14152e3fe3611c5
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Nov 15 17:19:15 2017 -0500
+
+    Added ast maker
+
+ ast.mli       |  3 +++
+ ast_maker.mli | 35 +++++++++++++++++++++++++++++++++++
+ 2 files changed, 38 insertions(+)
+
+commit 93df2281ef3eddb42ec01185dd91431c1f1cfe1e
+Author: Apurva Koti <apurva.koti@hotmail.com>
+Date:   Wed Nov 15 17:01:55 2017 -0500
+
+    added repl mli
+
+ main_repl.mli | 8 ++++++++
+ 1 file changed, 8 insertions(+)
