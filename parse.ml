@@ -3,6 +3,7 @@
 
 open Lexing
 
+(*Throw when parser.mly fails*)
 exception SyntaxError of string
 
 (*[parse p s] parses string [s] using the parsing rules defined in [p].*)
